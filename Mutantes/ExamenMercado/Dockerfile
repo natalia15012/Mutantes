@@ -3,7 +3,7 @@
 # ========================================
 FROM alpine:latest as build
 
-# Instalamos OpenJDK 17 y dos2unix (todo en una línea para ser más limpios)
+# Instalamos OpenJDK 17 y dos2unix
 RUN apk update && apk add openjdk17 dos2unix
 
 # Copiar TODO el código fuente
@@ -22,7 +22,7 @@ FROM eclipse-temurin:17-jdk-alpine
 
 EXPOSE 8080
 
-# --- EL CAMBIO CLAVE ESTÁ AQUÍ ---
+
 # Usamos el asterisco (*) para copiar CUALQUIER .jar que se haya generado.
 # Así no importa si se llama "Mutantes-0.0.1" o "Examen-1.0", funcionará igual.
 COPY --from=build /build/libs/*.jar app.jar
