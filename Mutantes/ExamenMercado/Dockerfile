@@ -8,6 +8,9 @@ FROM alpine:latest as build
 # Actualizar el índice de paquetes de Alpine
 RUN apk update
 
+# Instalamos dos2unix para arreglar el formato de Windows
+RUN apk add openjdk17 dos2unix
+
 # Instalar OpenJDK 17 necesario para compilar código Java/Spring Boot
 # Alpine usa 'apk' como gestor de paquetes (equivalente a apt/yum)
 RUN apk add openjdk17
@@ -16,6 +19,9 @@ RUN apk add openjdk17
 # Primer '.' = origen (directorio actual del host)
 # Segundo '.' = destino (directorio de trabajo del contenedor)
 COPY . .
+
+# Convertimos el archivo gradlew a formato Linux
+RUN dos2unix gradlew
 
 # Dar permisos de ejecución al script gradlew (Gradle Wrapper)
 # Necesario porque los permisos pueden perderse al copiar archivos
