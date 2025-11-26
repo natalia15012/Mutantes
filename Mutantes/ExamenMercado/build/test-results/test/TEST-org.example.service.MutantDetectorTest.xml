@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.service.MutantDetectorTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2025-11-26T13:31:41.856Z" hostname="COMPUNATI" time="0.152">
+  <properties/>
+  <testcase name="shouldDetectMutantWithAntiDiagonal()" classname="org.example.service.MutantDetectorTest" time="0.047"/>
+  <testcase name="shouldReturnFalseForNonSquareMatrix()" classname="org.example.service.MutantDetectorTest" time="0.004"/>
+  <testcase name="shouldReturnFalseForHuman()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldReturnFalseForLowerCaseCharacters()" classname="org.example.service.MutantDetectorTest" time="0.006"/>
+  <testcase name="shouldDetectMutantWhenAllAreSame()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldDetectMutantIn4x4Matrix()" classname="org.example.service.MutantDetectorTest" time="0.003"/>
+  <testcase name="shouldDetectMutantWithDiagonals()" classname="org.example.service.MutantDetectorTest" time="0.003"/>
+  <testcase name="shouldReturnFalseForSingleSequence()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldDetectMutantWithCrossingSequences()" classname="org.example.service.MutantDetectorTest" time="0.003"/>
+  <testcase name="shouldReturnFalseForNullOrEmpty()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldDetectMutantWithSparseSequences()" classname="org.example.service.MutantDetectorTest" time="0.003"/>
+  <testcase name="shouldReturnFalseForSequencesOfThree()" classname="org.example.service.MutantDetectorTest" time="0.006"/>
+  <testcase name="shouldReturnFalseForJaggedArray()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldReturnFalseForInvalidCharacter()" classname="org.example.service.MutantDetectorTest" time="0.003"/>
+  <testcase name="shouldDetectMutantWithVerticalSequencesOnly()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldReturnFalseForNullRow()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldDetectMutantWithHorizontalAndVerticalSequences()" classname="org.example.service.MutantDetectorTest" time="0.002"/>
+  <testcase name="shouldDetectMutantWithSequenceInLastColumn()" classname="org.example.service.MutantDetectorTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

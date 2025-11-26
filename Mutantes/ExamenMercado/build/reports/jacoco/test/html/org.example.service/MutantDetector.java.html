@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MutantDetector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ExamenMercado</a> &gt; <a href="index.source.html" class="el_package">org.example.service</a> &gt; <span class="el_source">MutantDetector.java</span></div><h1>MutantDetector.java</h1><pre class="source lang-java linenums">package org.example.service;
+
+import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+@Component // Para que Spring lo inyecte
+<span class="fc" id="L8">public class MutantDetector {</span>
+
+    private static final int SEQUENCE_LENGTH = 4;
+<span class="fc" id="L11">    private static final Set&lt;Character&gt; VALID_BASES = Set.of('A', 'T', 'C', 'G');</span>
+
+    public boolean isMutant(String[] dna) {
+<span class="fc bfc" id="L14" title="All 4 branches covered.">        if(dna == null || dna.length == 0){</span>
+<span class="fc" id="L15">            return false;</span>
+        }
+<span class="fc" id="L17">        int n = dna.length;</span>
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (n &lt; SEQUENCE_LENGTH){</span>
+<span class="fc" id="L20">            return false;</span>
+        }
+
+<span class="fc" id="L23">        char[][] matrix = new char[n][n];</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for (int i=0; i&lt;n; i++){</span>
+<span class="pc bpc" id="L26" title="1 of 4 branches missed.">            if (dna[i] == null || dna[i].length()!= n){</span>
+<span class="fc" id="L27">                return false;</span>
+            }
+<span class="fc" id="L29">            char[] rowChars = dna[i].toCharArray();</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            for (char c : rowChars){</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">                if (!VALID_BASES.contains(c)){</span>
+<span class="fc" id="L32">                    return false;</span>
+                }
+            }
+<span class="fc" id="L35">            matrix[i] = rowChars;</span>
+        }
+
+<span class="fc" id="L38">        int sequenceCount = 0;</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (int row = 0; row &lt; n; row++) {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            for (int col = 0; col &lt; n; col++) {</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">                if (col &lt;= n - SEQUENCE_LENGTH) {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">                    if (checkHorizontal(matrix, row, col)) {</span>
+<span class="fc" id="L45">                        sequenceCount++;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                        if (sequenceCount &gt; 1) return true; // ¡Optimización clave!</span>
+                    }
+                }
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">                if (row &lt;= n - SEQUENCE_LENGTH) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                    if (checkVertical(matrix, row, col)) {</span>
+<span class="fc" id="L52">                        sequenceCount++;</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                        if (sequenceCount &gt; 1) return true;</span>
+                    }
+                }
+
+<span class="fc bfc" id="L57" title="All 4 branches covered.">                if (row &lt;= n - SEQUENCE_LENGTH &amp;&amp; col &lt;= n - SEQUENCE_LENGTH) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">                    if (checkDiagonal(matrix, row, col)) {</span>
+<span class="fc" id="L59">                        sequenceCount++;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">                        if (sequenceCount &gt; 1) return true;</span>
+                    }
+                }
+
+<span class="fc bfc" id="L64" title="All 4 branches covered.">                if (row &gt;= SEQUENCE_LENGTH - 1 &amp;&amp; col &lt;= n - SEQUENCE_LENGTH) {</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">                    if (checkAntiDiagonal(matrix, row, col)) {</span>
+<span class="nc" id="L66">                        sequenceCount++;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                        if (sequenceCount &gt; 1) return true;</span>
+                    }
+                }
+            }
+        }
+
+<span class="fc" id="L73">        return false; // Si llegamos acá, es Humano</span>
+    }
+    // --- MÉTODOS HELPER (Comparaciones directas para rendimiento) ---
+    private boolean checkVertical(char[][] matrix, int row, int col) {
+<span class="fc" id="L77">        char base = matrix[row][col];</span>
+<span class="fc bfc" id="L78" title="All 6 branches covered.">        return matrix[row + 1][col] == base &amp;&amp;</span>
+                matrix[row + 2][col] == base &amp;&amp;
+                matrix[row + 3][col] == base;
+    }
+    private boolean checkHorizontal(char[][] matrix, int row, int col) {
+<span class="fc" id="L83">        char base = matrix[row][col];</span>
+        // Compara la base con las 3 siguientes a su DERECHA
+<span class="fc bfc" id="L85" title="All 6 branches covered.">        return matrix[row][col + 1] == base &amp;&amp;</span>
+                matrix[row][col + 2] == base &amp;&amp;
+                matrix[row][col + 3] == base;
+    }
+    private boolean checkDiagonal(char[][] matrix, int row, int col) {
+<span class="fc" id="L90">        char base = matrix[row][col];</span>
+<span class="fc bfc" id="L91" title="All 6 branches covered.">        return matrix[row + 1][col + 1] == base &amp;&amp;</span>
+                matrix[row + 2][col + 2] == base &amp;&amp;
+                matrix[row + 3][col + 3] == base;
+    }
+
+    private boolean checkAntiDiagonal(char[][] matrix, int row, int col) {
+<span class="fc" id="L97">        char base = matrix[row][col];</span>
+<span class="pc bpc" id="L98" title="3 of 6 branches missed.">        return matrix[row - 1][col + 1] == base &amp;&amp;</span>
+                matrix[row - 2][col + 2] == base &amp;&amp;
+                matrix[row - 3][col + 3] == base;
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
